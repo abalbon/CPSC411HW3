@@ -26,6 +26,7 @@ public class StudentDB extends Activity {
 
     }
 
+    // Retrieves the database student list
     public static ArrayList<Student> getStudentList() {
         ArrayList<Student> stuList = new ArrayList<>();
         Student stu;
@@ -50,6 +51,7 @@ public class StudentDB extends Activity {
         return stuList;
     }
 
+    // Add full list of students to the database
     public static void addListToDB(ArrayList<Student> studentList) {
         for(Student student:studentList){
             sqlDB.execSQL("INSERT INTO STUDENT VALUES (?, ?, ?)", new String[]{student.getFirstName(), student.getLastName(), student.getCwid()});
@@ -60,6 +62,7 @@ public class StudentDB extends Activity {
         }
     }
 
+    // Update student first name or last name based on cwid, CWID should not be allowed to be updated
     public static void updateDB(Student updatedStu) {
         ContentValues cv = new ContentValues();
         cv.put("FirstName", updatedStu.getFirstName());
