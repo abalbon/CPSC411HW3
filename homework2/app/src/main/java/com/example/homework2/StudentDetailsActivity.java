@@ -1,6 +1,7 @@
 package com.example.homework2;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -21,10 +22,13 @@ public class StudentDetailsActivity extends AppCompatActivity {
     protected Student sObj;
     protected int studentIndx;
     protected Menu detailMenu;
+    StudentDB stuDB;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        stuDB = new StudentDB(this);
 
         setContentView(R.layout.student_details);
 
@@ -79,6 +83,8 @@ public class StudentDetailsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        Student upStu = new Student("", "", "");
         if (item.getItemId() == R.id.action_edit) {
             EditText editView = findViewById(R.id.p_fname_id);
             editView.setEnabled(true);
@@ -89,15 +95,22 @@ public class StudentDetailsActivity extends AppCompatActivity {
             detailMenu.findItem(R.id.action_done).setVisible(true);
         } else if (item.getItemId() == R.id.action_done) {
             EditText editView = findViewById(R.id.p_fname_id);
-            StudentDB.getStudentList().get(studentIndx).setFirstName(editView.getText().toString());
+            upStu.setFirstName(editView.getText().toString());
             editView.setEnabled(false);
 
             editView = findViewById(R.id.p_lname_id);
-            StudentDB.getStudentList().get(studentIndx).setLastName(editView.getText().toString());
+            upStu.setLastName(editView.getText().toString());
             editView.setEnabled(false);
+
+            editView = findViewById(R.id.p_cwid_id);
+            upStu.setCwid(editView.getText().toString());
 
             item.setVisible(false);
             detailMenu.findItem(R.id.action_edit).setVisible(true);
+
+
+
+            stuDB.updateDB(upStu);
         }
 
         return super.onOptionsItemSelected(item);

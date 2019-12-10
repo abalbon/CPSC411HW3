@@ -1,6 +1,7 @@
 package com.example.homework2.model;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -57,5 +58,12 @@ public class StudentDB extends Activity {
                 sqlDB.execSQL("INSERT INTO COURSES VALUES (?, ?, ?)", new String[]{student.getCwid(), course.getCourseId(), course.getGrade()});
             }
         }
+    }
+
+    public static void updateDB(Student updatedStu) {
+        ContentValues cv = new ContentValues();
+        cv.put("FirstName", updatedStu.getFirstName());
+        cv.put("LastName", updatedStu.getLastName());
+        sqlDB.update("STUDENT", cv, "Cwid=?", new String[]{updatedStu.getCwid()});
     }
 }
